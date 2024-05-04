@@ -1,0 +1,17 @@
+<h2>All {{ include.tagName }} posts</h2>
+
+{% assign words_per_minute = 200 %}
+{% for post in site.tags[include.tagName] %}
+  <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+
+{% capture words %}
+    {{ content | number_of_words }}
+{% endcapture %}
+
+<span class="readingTime" style="font-size: 0.7em;">
+    <i class="fas fa-clock"></i> 
+    Reading Time: {{ words | divided_by: 180 | append: ' min' }}
+</span>
+
+<p>{{ post.excerpt }}</p>
+{% endfor %}
