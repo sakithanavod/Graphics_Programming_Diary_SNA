@@ -1,28 +1,89 @@
 ---
-title: "Foreword"
+title: "Points & Vectors - Introduction"
 excerpt_separator: "<!--more-->"
 categories:
  - CG Math
 tags:
  - Maths
 ---
+{% include mathJax.html %}
 
-All children, except one, grow up. They soon know that they will grow up, and the way Wendy knew was this. One day when she was two years old she was playing in a garden.
+What are points and vectors? How they are related to game development.
 
 <!--more-->
 
-This post has a manual excerpt `<!--more-->` set after the second paragraph. The following YAML Front Matter has also be applied:
+## Points
+Points are used to indicate a location/position relative to the origin of the coordinate system, and that's it! It's very simple. This is how a point is denoted in 2D Cartesian coordinate space.
 
-```yaml
-excerpt_separator: "<!--more-->"
-```
+![Alt Text](/assets/maths/coordinate.png)
 
-If you could keep awake (but of course you can't) you would see your own mother doing this, and you would find it very interesting to watch her. It is quite like tidying up drawers. You would see her on her knees, I expect, lingering humorously over some of your contents, wondering where on earth you had picked this thing up, making discoveries sweet and not so sweet, pressing this to her cheek as if it were as nice as a kitten, and hurriedly stowing that out of sight. When you wake in the morning, the naughtiness and evil passions with which you went to bed have been folded up small and placed at the bottom of your mind and on the top, beautifully aired, are spread out your prettier thoughts, ready for you to put on.
+Here, we denoted a point in 2D coordinate space as **P(x,y).**
 
-I don't know whether you have ever seen a map of a person's mind. Doctors sometimes draw maps of other parts of you, and your own map can become intensely interesting, but catch them trying to draw a map of a child's mind, which is not only confused, but keeps going round all the time. There are zigzag lines on it, just like your temperature on a card, and these are probably roads in the island, for the Neverland is always more or less an island, with astonishing splashes of colour here and there, and coral reefs and rakish-looking craft in the offing, and savages and lonely lairs, and gnomes who are mostly tailors, and caves through which a river runs, and princes with six elder brothers, and a hut fast going to decay, and one very small old lady with a hooked nose. It would be an easy map if that were all, but there is also first day at school, religion, fathers, the round pond, needle-work, murders, hangings, verbs that take the dative, chocolate pudding day, getting into braces, say ninety-nine, three-pence for pulling out your tooth yourself, and so on, and either these are part of the island or they are another map showing through, and it is all rather confusing, especially as nothing will stand still.
+## Vectors
+Geometrically speaking, a vector is a directed line segment that has **magnitude** and **direction**
 
-Of course the Neverlands vary a good deal. John's, for instance, had a lagoon with flamingoes flying over it at which John was shooting, while Michael, who was very small, had a flamingo with lagoons flying over it. John lived in a boat turned upside down on the sands, Michael in a wigwam, Wendy in a house of leaves deftly sewn together. John had no friends, Michael had friends at night, Wendy had a pet wolf forsaken by its parents, but on the whole the Neverlands have a family resemblance, and if they stood still in a row you could say of them that they have each other's nose, and so forth. On these magic shores children at play are for ever beaching their coracles [simple boat]. We too have been there; we can still hear the sound of the surf, though we shall land no more.
+![Alt Text](/assets/maths/math1.png)
 
-Of all delectable islands the Neverland is the snuggest and most compact, not large and sprawly, you know, with tedious distances between one adventure and another, but nicely crammed. When you play at it by day with the chairs and table-cloth, it is not in the least alarming, but in the two minutes before you go to sleep it becomes very real. That is why there are night-lights.
+* The *magnitude* of a vector is the length of the vector.
+* The *direction* of a vector describes which way the vector is pointing in space.
 
-Occasionally in her travels through her children's minds Mrs. Darling found things she could not understand, and of these quite the most perplexing was the word Peter. She knew of no Peter, and yet he was here and there in John and Michael's minds, while Wendy's began to be scrawled all over with him. The name stood out in bolder letters than any of the other words, and as Mrs. Darling gazed she felt that it had an oddly cocky appearance.
+Examples for vectors are: 
+* Displacement : “Take three steps forward.”
+* Velocity : “I am traveling northeast at 50 mph.”
+
+Vectors have both magnitude and direction. Usually, we denote vectors as follows:
+
+$$\overrightarrow{AB}$$
+
+## Vectors versus Points
+*Points* has location in some coordinate system, but they don't have a size/thickness vise versa *Vectors* has a
+magnitude and direction, but no position. So what is their relationship?
+
+Vectors are used to describe displacements, and therefore they can describe **relative positions** (remember vectors don't have a fixed position in space. Instead, they describe how to get from one position to another.).
+
+Imagine you're traveling from one city to another. You could describe your journey using a vector that points from the initial city to the destination city. This vector would indicate the direction you traveled and the distance you covered, but it wouldn't tell you exactly where those cities are located on a map. In essence, vectors allow us to focus on the relationship between points or objects rather than their absolute positions (here we build a relationship between two cities by relatively comparing each other).
+{: .notice--primary}
+
+Points are used to specify positions and any method of specifying a position must be relative.
+
+For instance, if you say that a building is located at coordinates (3, 4) on a grid, those coordinates are relative to the origin of that grid. Similarly, if you say that a star is 10 light-years away from Earth, you're specifying its position relative to our planet.
+{: .notice--primary}
+
+**The Relationship between Points and Vectors**
+
+![Alt Text](/assets/maths/math2.png)
+
+As you can see, if we start at the origin and move by the amount specified by the vector *[x, y]*, we will end up at the location described by the point
+*(x, y)*.
+
+We can also say that when we subtract two points, we get a vector. 
+
+Another way of saying this is that the vector *[x, y]* gives the displacement from the origin to the point *(x, y)*.
+{: .notice--success}
+
+
+## Vector Magnitude (Length)
+
+As we have discussed, vectors have magnitude and direction. However, you might have noticed that neither the magnitude nor the direction is expressed
+explicitly in the vector so we must compute it. The magnitude of a vector is also known as the *length* of the vector.
+
+![Alt Text](/assets/maths/math7.png)
+
+$$\left\lVert \vec{v} \right\rVert = \sqrt{v_x^2 + v_y^2}$$
+
+## Unit Vectors / Normalized Vectors
+
+For many vector quantities, we are concerned only with direction and not magnitude: “Which way am I facing?” “Which way is the surface oriented?” In these cases, it is often convenient to use unit vectors.
+
+A *unit vector* is a vector that has a magnitude of one. Unit vectors are also known as **normalized** vectors.
+{: .notice--success}
+
+$$\hat{v} = \frac{v}{\left\lVert v \right\rVert}$$
+
+where, 
+
+$$\hat{v}$$ = unit vector
+
+$${v}$$ = vector that needs to be normalized
+
+$$\left\lVert \vec{v} \right\rVert$$ = length of the vector
