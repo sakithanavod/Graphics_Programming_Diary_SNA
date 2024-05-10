@@ -12,6 +12,38 @@ What are points and vectors? How they are related to game development.
 
 <!--more-->
 
+## Different Coordinate Systems
+
+Let's talk about different coordinate systems first.
+
+### Left Handed Coordinate Systems (Using your left hand)
+
+Examples : Unity, Unreal
+
+* X Axis - Thumb Finger Direction
+* Y Axis - Index Finger Direction
+* Z Axis - Middle Finger Direction (Which means Z goes **AWAY** from you)
+
+![Alt Text](/assets/maths/math15.png)
+
+### Right Handed Coordinate Systems (Using your right hand)
+
+Examples : Three.js, Godot
+
+* X Axis - Thumb Finger Direction
+* Y Axis - Index Finger Direction
+* Z Axis - Middle Finger Direction (Which means Z goes **TOWARDS** you)
+
+![Alt Text](/assets/maths/math16.png)
+
+Left-handed and right-handed coordinate systems also differ in the definition of “positive rotation.”
+
+Now, if you tell me to “rotate $$30^{\circ}$$ about the axis,” how do I know which way to rotate? We need to agree between us
+that one direction of rotation is the positive direction, and the other direction is the negative direction. The way to find this is to use following rules:
+
+![Alt Text](/assets/maths/math17.png)
+
+
 ## Points
 Points are used to indicate a location/position relative to the origin of the coordinate system, and that's it! It's very simple. This is how a point is denoted in 2D Cartesian coordinate space.
 

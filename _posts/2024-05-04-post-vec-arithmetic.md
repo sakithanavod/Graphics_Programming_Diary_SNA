@@ -6,6 +6,7 @@ categories:
  - CG Math
 tags:
  - Maths
+ - Exercises
 ---
 {% include mathJax.html %}
 
@@ -102,7 +103,7 @@ We can define the dot product $$\hat{\mathbf{a}} · b$$ as the **signed length**
 
 *When we want to define this without unit vectors, we can say,*
 
-The dot product $$\hat{a}.\hat{b}$$ is equal to the signed length of the projection of $$\hat{b}$$ onto any line parallel to $$\hat{a}$$, multiplied by the length of a.
+The dot product $$\overrightarrow{a}.\overrightarrow{b}$$ is equal to the signed length of the projection of $$\overrightarrow{b}$$ onto any line parallel to $$\overrightarrow{a}$$ ( if the angle between them is $$\cos \theta$$ then, signed length of projection of $$\overrightarrow{b}$$ on to $$\overrightarrow{a}$$ is $${\left\lVert b \right\rVert}.\cos \theta$$ ), multiplied by the length of a.
 {: .notice--success}
 
 
@@ -166,3 +167,64 @@ Therefore,
 $$a.b = {\left\lVert a \right\rVert}{\left\lVert b \right\rVert}\cos \theta$$
 
 ### Cross Product:
+
+the cross product, can be applied only in 3D. Unlike the dot product, which yields a scalar and is commutative, the vector cross product yields a *3D vector* and is not commutative.
+
+If,
+
+$${c} = {\mathbf{a} \times \mathbf{b}}$$
+
+Then,
+
+$${c_x} = {a_y* b_z - a_z*b_y}$$
+
+$${c_y} = {a_z* b_x - a_x*b_z}$$
+
+$${c_z} = {a_x* b_y - a_y*b_x}$$
+
+*Context 1 :  Geometric Interpretation*
+
+The cross product yields a vector that is perpendicular to the original two vectors
+{: .notice--success}
+
+![Alt Text](/assets/maths/math18.png)
+
+Because cross product is **not commutative**, we need to consider the order of a and b since it affects the direction of the resulting vector. You can determine the resulting vector *direction* by using the "Handy Guide" which uses your **Right Hand**
+
+If,
+
+$${\mathbf{a} \times \mathbf{b} = c}$$
+
+![Alt Text](/assets/maths/math19.png)
+
+* "a" is index finger
+* "b" is middle finger
+* "c" is the result
+
+What is the relationship between the resulting vector of cross product other than it's perpendicular to other two vectors? As it turns out there is indeed a relationship among them.
+
+As it turns out, length of the resulting vector $${c}$$ is also equal to the area of the parallelogram formed with two sides $${a}$$ and $${b}$$.
+{: .notice--success}
+
+![Alt Text](/assets/maths/math20.png)
+
+Area of parallelogram is equals to,
+
+$$A = {\left\lVert b \right\rVert} h$$
+
+We solve this equation a bit more, because $$\sin \theta = h/{\left\lVert a \right\rVert}$$
+
+$$A = {\left\lVert b \right\rVert} {\left\lVert a \right\rVert} \sin \theta$$
+
+Finally we get following equation,
+
+$$\left\lVert \mathbf{a} \times \mathbf{b} \right\rVert =  {\left\lVert a \right\rVert} {\left\lVert b \right\rVert} \sin \theta$$
+
+The length of $${\mathbf{a} \times \mathbf{b}}$$ is equal to the product of the magnitudes of $${a}$$ and $${b}$$ and the sine of the angle between $${a}$$ and $${b}$$
+{: .notice--success}
+
+## Exercises
+
+[Download Exercises](/assets/exercises/maths/Ex_01/Chapter%2001%20-%20Vector%20-%20Excerises.pdf){:target="_blank"}
+
+[Download Answers](/assets/exercises/maths/Ex_01/Chapter%2001%20-%20Vector%20-%20Answers.pdf){:target="_blank"}
