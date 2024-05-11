@@ -10,7 +10,8 @@ tags:
 ---
 {% include mathJax.html %}
 
-Involves performing mathematical operations such as addition, subtraction, scalar multiplication, and dot product on vectors. 
+Involves performing mathematical operations such as addition, subtraction, scalar multiplication, and dot/cross
+ product on vectors. 
 
 <!--more-->
 
@@ -166,6 +167,17 @@ Therefore,
 
 $$a.b = {\left\lVert a \right\rVert}{\left\lVert b \right\rVert}\cos \theta$$
 
+*Let's check what happens when you use dot product on the vector it self*
+
+$$\overrightarrow{a} . \overrightarrow{a} = {\left\lVert a \right\rVert} . {\left\lVert a \right\rVert}\cos \theta $$
+
+Now $$cos0^{\circ} = 1 $$, therefore,
+
+$$\overrightarrow{a} . \overrightarrow{a} = {\left\lVert a \right\rVert}^2$$
+
+When you take the dot product of a vector with itself, you're essentially finding the square of its magnitude.
+{: .notice--success}
+
 ### Cross Product:
 
 the cross product, can be applied only in 3D. Unlike the dot product, which yields a scalar and is commutative, the vector cross product yields a *3D vector* and is not commutative.
@@ -182,14 +194,14 @@ $${c_y} = {a_z* b_x - a_x*b_z}$$
 
 $${c_z} = {a_x* b_y - a_y*b_x}$$
 
-*Context 1 :  Geometric Interpretation*
+*Geometric Interpretation*
 
 The cross product yields a vector that is perpendicular to the original two vectors
 {: .notice--success}
 
 ![Alt Text](/assets/maths/math18.png)
 
-Because cross product is **not commutative**, we need to consider the order of a and b since it affects the direction of the resulting vector. You can determine the resulting vector *direction* by using the "Handy Guide" which uses your **Right Hand**
+Because cross product is **not commutative**, we need to consider the order of a and b since it affects the direction of the resulting vector. You can determine the resulting vector *direction* by using the "Handy Guide" which uses your **Right Hand** (*only when if it's right handed coordinate system, otherwise use left hand*)
 
 If,
 
@@ -201,7 +213,24 @@ $${\mathbf{a} \times \mathbf{b} = c}$$
 * "b" is middle finger
 * "c" is the result
 
-What is the relationship between the resulting vector of cross product other than it's perpendicular to other two vectors? As it turns out there is indeed a relationship among them.
+What is the relationship between the resulting vector of cross product other than it's perpendicular to other two vectors?.
+
+*Context 1 : Determining the direction of rotation between two vectors*
+
+![Alt Text](/assets/maths/math21.png)
+
+We can determine the direction of $${\mathbf{a} \times \mathbf{b}}$$ by placing the tail of $${b}$$ at the head of $${a}$$, and examining whether we make a clockwise or counterclockwise turn from $${a}$$ to $${b}$$.
+
+Check the sign of the resulting vector's z-component (assuming we're working in 2D or in 3D where the z-axis is perpendicular to the plane containing $${a}$$ and $${b}$$)
+{: .notice--success}
+
+For right handed coordinate systems,
+* If the z-component is positive, then you need to make a counterclockwise turn from $${a}$$ to $${b}$$
+* If the z-component is negative, then you need to make a clockwise  turn from $${a}$$ to $${b}$$
+* If the z-component is zero, the vectors are collinear, meaning they point in the same or opposite directions, and there is no need to turn
+{: .notice--primary}
+
+*Context 2 : Geometric relationship*
 
 As it turns out, length of the resulting vector $${c}$$ is also equal to the area of the parallelogram formed with two sides $${a}$$ and $${b}$$.
 {: .notice--success}
@@ -222,6 +251,19 @@ $$\left\lVert \mathbf{a} \times \mathbf{b} \right\rVert =  {\left\lVert a \right
 
 The length of $${\mathbf{a} \times \mathbf{b}}$$ is equal to the product of the magnitudes of $${a}$$ and $${b}$$ and the sine of the angle between $${a}$$ and $${b}$$
 {: .notice--success}
+
+But how we get the actual vector returned by the cross product? To that we can do following steps,
+
+* *Calculate the magnitude*: $$\left\lVert \mathbf{a} \times \mathbf{b} \right\rVert =  {\left\lVert a \right\rVert} {\left\lVert b \right\rVert} \sin \theta$$
+* *Determine Direction*: Use the right-hand rule (If we are in right handed coordinate system) to determine the direction of the resulting vector.
+lets it call $${c} = \mathbf{a} \times \mathbf{b}$$
+* *Construct Vector*: Combine the magnitude and direction to construct the resulting vector $${c}$$ Its magnitude is given by the value obtained in step 1, and its direction is determined by the right-hand rule.
+
+So $${c}$$ can be expressed as,
+
+$${c} = \left\lVert \mathbf{a} \times \mathbf{b} \right\rVert . \hat{n}$$
+
+where $$\hat{n}$$ is a unit vector in the direction determined by the right-hand rule.
 
 ## Exercises
 
