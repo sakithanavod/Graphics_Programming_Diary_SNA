@@ -1,0 +1,69 @@
+---
+title: "Multiple Coordinate Spaces"
+date: 2024-05-12 12:00:00
+excerpt_separator: "<!--more-->"
+categories:
+ - CG Math
+tags:
+ - Maths
+---
+{% include mathJax.html %}
+
+This chapter gives some examples of common coordinate spaces that are used for graphics and games.
+
+<!--more-->
+
+##  Why Bother with Multiple Coordinate Spaces?
+
+An angle measures an amount of rotation in the plane. The most important units of measure used to specify angles are degrees ($$^{\circ}$$) and radians (rad).
+
+![Alt Text](/assets/maths/math22.png)
+
+When we specify the angle between two rays in radians, we are actually measuring the **length of the intercepted arc of a unit circle** (a circle centered at the origin with radius 1)
+{: .notice--success}
+
+The circumference of a unit circle is  $$2\pi$$, with  $$\pi$$ approximately equal to 3.14159265359. Therefore, 2π radians represents a complete revolution.
+
+Since $$360^{\circ}$$ = $$2\pi$$ rad (r = 1 since it's the unit circle), $$180^{\circ}$$ =  $$\pi$$ rad.
+
+*To Convert Degrees to Radians:*
+
+**degrees *  $$\pi$$/180**
+{: .notice--primary}
+
+*To Convert Radians to Degrees:*
+
+**radians *  180/$$\pi$$**
+{: .notice--primary}
+
+## Trig Functions
+
+### Trig Identities
+
+A number of identities can be derived based on the symmetry of the unit circle:
+
+![Alt Text](/assets/maths/math23.png)
+
+A number of identities can be derived based on the *Pythagorean theorem*:
+
+![Alt Text](/assets/maths/math24.png)
+
+The following identities involve taking a trig function on the sum or difference of two angles:
+
+![Alt Text](/assets/maths/math25.png)
+
+If we apply the sum identities to the special case where a and b are the same, we get the following double angle identities:
+
+![Alt Text](/assets/maths/math26.png)
+
+We often need to solve for an unknown side length or angle in a triangle, in terms of the known side lengths or angles. For these types of problems the *law of sines and law of cosines* are helpful.
+
+![Alt Text](/assets/maths/math27.png)
+
+Law of sines:
+
+![Alt Text](/assets/maths/math28.png)
+
+Law of cosines:
+
+![Alt Text](/assets/maths/math29.png)
