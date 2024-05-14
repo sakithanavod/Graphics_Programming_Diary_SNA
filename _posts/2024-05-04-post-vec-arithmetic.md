@@ -19,7 +19,7 @@ Involves performing mathematical operations such as addition, subtraction, scala
 Although we cannot add a vector and a scalar, we can multiply a vector by a scalar.
 *The result is a vector that is parallel to the original vector, with a different length and possibly opposite direction.*
 
-![Alt Text](/assets/maths/math3.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math3.png)
 
 <p>Geometrically, multiplying a vector by a scalar k has the effect of scaling the length by a factor of |k|. For example, to double the length of a vector we would multiply the vector by 2.</p>
 
@@ -29,7 +29,7 @@ Although we cannot add a vector and a scalar, we can multiply a vector by a scal
 
 We can add vectors $$\overrightarrow{a}$$ and $$\overrightarrow{b}$$ geometrically by positioning the vectors so that the head of a touches the tail of b and then drawing a vector from the tail of a to the head of b resulting $$\overrightarrow{(a+b)}$$.
 
-![Alt Text](/assets/maths/math4.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math4.png)
 
 When adding two vectors, it will result in what we call a resultant vector that combines the effects of the original vectors, starting from the origin
 {: .notice--success}
@@ -42,7 +42,7 @@ $$\overrightarrow{ab} = \overrightarrow{b} + (-\overrightarrow{a})$$
 
 $$\overrightarrow{ab} = \overrightarrow{b} - \overrightarrow{a}$$
 
-![Alt Text](/assets/maths/math5.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math5.png)
 
 If we have two points a and b, and if we subtract a from b then we get $$\overrightarrow{ab}$$.
 
@@ -69,7 +69,7 @@ end
 
 **Example Usage of Vector Arithmetic**
 
-![Alt Text](/assets/maths/math6.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math6.png)
 
 ## Vector Multiplication
 
@@ -94,7 +94,7 @@ Now let’s discuss the more important aspect of the dot product: what it means 
 
 *Context 1 : Projection*
 
-![Alt Text](/assets/maths/math9.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math9.png)
 
 Assume for the moment that $$\hat{\mathbf{a}}$$ is a unit vector, and b is a vector of any length. Now take b and project it onto a line parallel to 
 $$\hat{\mathbf{a}}$$
@@ -113,11 +113,11 @@ We have drawn the projections as arrows, but remember that the result of a dot p
 
 What does it mean for the dot product to measure a *signed length?* It means the value will be negative when the projection of b points in the opposite direction from $$\hat{\mathbf{a}}$$, and the projection has zero length (it is a single point) when $$\hat{\mathbf{a}}$$ and b are perpendicular. 
 
-![Alt Text](/assets/maths/math10.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math10.png)
 
 In other words, the sign of the dot product can give us a rough classification of the relative directions of the two vectors.
 
-![Alt Text](/assets/maths/math11.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math11.png)
 
 Before we switch to the second context of the dot product, let’s check out one more very common use of the dot product as a projection. 
 
@@ -125,7 +125,7 @@ Assume once more that $$\hat{\mathbf{a}}$$ is a unit vector and b has arbitrary 
 
 $${b} =  {b_x} + {b_y}$$
 
-![Alt Text](/assets/maths/math12.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math12.png)
 
 Using dot product,
 
@@ -144,7 +144,7 @@ $${b_y} = {b} - \hat{\mathbf{a}}.b$$
 Now let’s examine the dot product through the lens of trigonometry. This is the more common geometric interpretation of the dot product, which
 places a bit more emphasis on the angle between the vectors. 
 
-![Alt Text](/assets/maths/math13.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math13.png)
 
 Consider the right triangle on the right-hand side of above image. As the figure shows, the length of the hypotenuse is 1 (since $$\hat{\mathbf{b}}$$ is a unit vector) and the length of the base is equal to the dot product $$\hat{\mathbf{a}}$$ · $$\hat{\mathbf{b}}$$.
 
@@ -157,7 +157,7 @@ In other words, the dot product of two unit vectors is equal to the cosine of th
 
 Let's remove the unit vectors now,
 
-![Alt Text](/assets/maths/math14.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math14.png)
 
 Using above equation, we can say,
 
@@ -199,7 +199,7 @@ $${c_z} = {a_x* b_y - a_y*b_x}$$
 The cross product yields a vector that is perpendicular to the original two vectors
 {: .notice--success}
 
-![Alt Text](/assets/maths/math18.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math18.png)
 
 Because cross product is **not commutative**, we need to consider the order of a and b since it affects the direction of the resulting vector. You can determine the resulting vector *direction* by using the "Handy Guide" which uses your **Right Hand** (*only when if it's right handed coordinate system, otherwise use left hand*)
 
@@ -207,7 +207,7 @@ If,
 
 $${\mathbf{a} \times \mathbf{b} = c}$$
 
-![Alt Text](/assets/maths/math19.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math19.png)
 
 * "a" is index finger
 * "b" is middle finger
@@ -217,7 +217,7 @@ What is the relationship between the resulting vector of cross product other tha
 
 *Context 1 : Determining the direction of rotation between two vectors*
 
-![Alt Text](/assets/maths/math21.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math21.png)
 
 We can determine the direction of $${\mathbf{a} \times \mathbf{b}}$$ by placing the tail of $${b}$$ at the head of $${a}$$, and examining whether we make a clockwise or counterclockwise turn from $${a}$$ to $${b}$$.
 
@@ -235,7 +235,7 @@ For right handed coordinate systems,
 As it turns out, length of the resulting vector $${c}$$ is also equal to the area of the parallelogram formed with two sides $${a}$$ and $${b}$$.
 {: .notice--success}
 
-![Alt Text](/assets/maths/math20.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math20.png)
 
 Area of parallelogram is equals to,
 
@@ -267,6 +267,6 @@ where $$\hat{n}$$ is a unit vector in the direction determined by the right-hand
 
 ## Exercises
 
-[Download Exercises](/assets/exercises/maths/Ex_01/Chapter%2001%20-%20Vector%20-%20Excerises.pdf){:target="_blank"}
+[Download Exercises]({{ site.baseurl }}/assets/exercises/maths/Ex_01/Chapter%2001%20-%20Vector%20-%20Excerises.pdf){:target="_blank"}
 
-[Download Answers](/assets/exercises/maths/Ex_01/Chapter%2001%20-%20Vector%20-%20Answers.pdf){:target="_blank"}
+[Download Answers]({{ site.baseurl }}/assets/exercises/maths/Ex_01/Chapter%2001%20-%20Vector%20-%20Answers.pdf){:target="_blank"}

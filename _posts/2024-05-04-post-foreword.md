@@ -34,27 +34,27 @@ Examples : Three.js, Godot
 * Y Axis - Index Finger Direction
 * Z Axis - Middle Finger Direction (Which means Z goes **TOWARDS** you)
 
-![Alt Text](/assets/maths/math16.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math16.png)
 
 Left-handed and right-handed coordinate systems also differ in the definition of “positive rotation.”
 
 Now, if you tell me to “rotate $$30^{\circ}$$ about the axis,” how do I know which way to rotate? We need to agree between us
 that one direction of rotation is the positive direction, and the other direction is the negative direction. The way to find this is to use following rules:
 
-![Alt Text](/assets/maths/math17.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math17.png)
 
 
 ## Points
 Points are used to indicate a location/position relative to the origin of the coordinate system, and that's it! It's very simple. This is how a point is denoted in 2D Cartesian coordinate space.
 
-![Alt Text](/assets/maths/coordinate.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/coordinate.png)
 
 Here, we denoted a point in 2D coordinate space as **P(x,y).**
 
 ## Vectors
 Geometrically speaking, a vector is a directed line segment that has **magnitude** and **direction**
 
-![Alt Text](/assets/maths/math1.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math1.png)
 
 * The *magnitude* of a vector is the length of the vector.
 * The *direction* of a vector describes which way the vector is pointing in space.
@@ -83,7 +83,7 @@ For instance, if you say that a building is located at coordinates (3, 4) on a g
 
 **The Relationship between Points and Vectors**
 
-![Alt Text](/assets/maths/math2.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math2.png)
 
 As you can see, if we start at the origin and move by the amount specified by the vector *[x, y]*, we will end up at the location described by the point
 *(x, y)*.
@@ -99,7 +99,7 @@ Another way of saying this is that the vector *[x, y]* gives the displacement fr
 As we have discussed, vectors have magnitude and direction. However, you might have noticed that neither the magnitude nor the direction is expressed
 explicitly in the vector so we must compute it. The magnitude of a vector is also known as the *length* of the vector.
 
-![Alt Text](/assets/maths/math7.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math7.png)
 
 $$\left\lVert \vec{v} \right\rVert = \sqrt{v_x^2 + v_y^2}$$
 
