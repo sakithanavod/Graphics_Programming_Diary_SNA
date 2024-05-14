@@ -15,7 +15,7 @@ This chapter gives some examples of common coordinate spaces that are used for g
 
 ##  Why Bother with Multiple Coordinate Spaces?
 
-An angle measures an amount of rotation in the plane. The most important units of measure used to specify angles are degrees ($$^{\circ}$$) and radians (rad).
+For an example. a certain point a, we may not know the coordinates of a in the “world” coordinate system. But we may be able to express a relative to some *other* coordinate system.
 
 ![Alt Text](/assets/maths/math22.png)
 
