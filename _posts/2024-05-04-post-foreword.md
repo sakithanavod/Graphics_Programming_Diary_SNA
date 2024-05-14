@@ -24,7 +24,7 @@ Examples : Unity, Unreal
 * Y Axis - Index Finger Direction
 * Z Axis - Middle Finger Direction (Which means Z goes **AWAY** from you)
 
-![Alt Text](/assets/maths/math15.png)
+![Alt Text]({{ site.baseurl }}/assets/maths/math15.png)
 
 ### Right Handed Coordinate Systems (Using your right hand)
 
