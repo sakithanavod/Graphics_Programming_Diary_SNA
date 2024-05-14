@@ -23,6 +23,8 @@ twitter_username: username
 github_username: username
 minimal_mistakes_skin: dark
 search: true
+url: 'https://sakithanavod.github.io/'
+baseurl: 'Graphics_Programming_Diary_SNA/'
 
 # Build settings
 markdown: kramdown
