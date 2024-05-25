@@ -3,7 +3,7 @@ main:
 #    url: /posts/
   - title: "Maths"
     url: /maths/
-  - title: "Tags"
-    url: /tags/
-  - title: "About"
-    url: /about/
+  - title: "Data Structures & Algorithms"
+    url: /ds&a/
+  - title: "C++"
+    url: /C++/

@@ -2,7 +2,7 @@
 
 {% assign words_per_minute = 200 %}
 {% for post in site.tags[include.tagName] %}
-  <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+  <h3><a href="{{ site.baseurl }}/{{ post.url }}">{{ post.title }}</a></h3>
 
 {% capture words %}
     {{ content | number_of_words }}
