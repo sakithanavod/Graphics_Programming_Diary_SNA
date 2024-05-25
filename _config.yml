@@ -37,6 +37,8 @@ timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 include:
   - _pages
 
+future: true
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
@@ -61,7 +63,7 @@ plugins:
 author:
   name   : "Sakitha Navod"
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
+  bio    : "Welcome to my digital notebook, where I delve into the fascinating realms of computer graphics, mathematics, algorithms, data structures, and C++"
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
