@@ -11,6 +11,11 @@ C++ powerful language with an enormous range of features, but before you can har
 
 <!--more-->
 
+**Table of Contents**
+* TOC
+{:toc}
+
+
 # Variables and Data Types
 
 ## Primitive Data Types
@@ -415,4 +420,398 @@ int* const ptr = &x; // Const pointer to an integer
 const int* const ptr = &x; // Const pointer to a const integer
 // *ptr = 20; // Error: cannot modify the value
 // ptr = &y; // Error: ptr is const
+```
+## Const References
+Declares a reference to a constant variable, preventing modification through the reference.
+``` cpp
+int x = 10;
+const int& ref = x;
+// ref = 20; // Error: ref is const
+```
+## Const Member Functions
+Declares a member function that does not modify the object it belongs to.
+
+``` cpp
+class MyClass {
+public:
+    int getValue() const {
+        return value;
+    }
+private:
+    int value;
+};
+
+void foo(const MyClass& obj) {
+    int v = obj.getValue(); // OK: getValue is const because get value ensure we don't change the object
+}
+```
+
+## Const and Mutable
+Allows a member of an object to be modified even if the object is const.
+
+``` cpp
+class MyClass {
+public:
+    void setValue(int v) const {
+        value = v; // Allowed because value is mutable
+    }
+private:
+    mutable int value;
+};
+```
+
+## Const Correctness in Function Parameters and Return Types
+### Function Parameters
+Pass by Const Reference/Pointer: **Avoids** copying large objects while preventing modification.
+``` cpp
+//Pass by Const Reference
+void foo(const MyClass& obj);
+
+//Pass by Const Pointer
+void foo(const int* ptr);
+```
+
+### Function Return Types
+Returning Const Reference: Ensures the returned reference **cannot** be used to modify the object.
+``` cpp
+const MyClass& getConstObject() const;
+```
+
+### Const Correctness and Overloading
+Function Overloading with Const:
+``` cpp
+class MyClass {
+public:
+    void foo();
+    void foo() const;
+};
+
+MyClass obj;
+obj.foo(); // Calls non-const version
+
+const MyClass constObj;
+constObj.foo(); // Calls const version
+```
+## Usage of constant expressions
+This keyword introduced in C++11 that allows for the specification of constant expressions, enabling the evaluation of expressions at *compile time* rather than at *runtime*. This can lead to more efficient and optimized code, as the compiler can perform calculations during compilation and embed the results directly into the binary.
+
+Use Cases: Constants, array sizes, metaprogramming, and performance-critical code.
+
+### `constexpr` Variables.
+
+``` cpp
+constexpr int value = 10;  // Evaluated at compile time
+
+int main() {
+    int array[value];  // Size of array is known at compile time
+    return 0;
+}
+```
+
+### `constexpr` Functions.
+A `constexpr` function is a function that can be evaluated at compile time if its arguments are constant expressions
+
+``` cpp
+constexpr int square(int x) {
+    return x * x;
+}
+
+int main() {
+    constexpr int result = square(5);  // Evaluated at compile time
+    // result is computed as 25 during compilation
+    return 0;
+}
+```
+#### What does it mean by Evaluated at compile time?
+it means that the compiler computes the value of the expression during the *compilation process* rather than at runtime. This allows the compiler to embed the computed result directly into the *program's binary*, leading to more efficient and faster code execution since these calculations do not need to be performed repeatedly during program execution.
+
+*Benefits of Compile-Time Evaluation*
+* **Performance Improvement:** Since the computation is done once during compilation, the program does not spend time performing these calculations at runtime.
+* **Reduced Binary Size:** The results of the computations are directly embedded in the binary, potentially reducing the size of the generated machine code.
+* **Code Safety and Optimization:** Ensures that certain values are constant and cannot change, making the code safer and allowing the compiler to perform more aggressive optimizations.
+
+# Casting in C++
+Casting in C++ is a way to convert a variable from one type to another. There are several types of casting in C++, each with its own specific use cases and rules.
+
+## Implicit Casting
+Automatic type conversion performed by the compiler without explicit instructions from the programmer.
+
+``` cpp
+int i = 42;
+double d = i; // Implicitly converts int to double
+```
+
+## Explicit Casting (Type Casting)
+### C-Style Casting
+
+``` cpp
+int i = 42;
+double d = (double)i; // C-style cast
+```
+Drawbacks is Less safe and harder to identify in code.
+{: .notice--warning}
+
+### C++ Style Casting
+C++ provides more explicit and safer casting operators:
+
+#### `static_cast`
+*Usage:* Perform well-defined and checked conversions.
+
+``` cpp
+int i = 42;
+double d = static_cast<double>(i); // Static cast
+```
+Common Uses:
+1. Numeric conversions.
+2. Converting pointers within an inheritance hierarchy.
+    
+    In an inheritance hierarchy, a derived class inherits properties and methods from a base class. You can have pointers to both base and derived class objects. static_cast allows you to convert pointers within this hierarchy safely, as long as the types are related through inheritance.
+
+3. Downcasting: Use `static_cast` only when you are certain of the object type and want to make it clear that the conversion is intentional.
+
+``` cpp
+class Base {
+public:
+    virtual ~Base() = default;
+    void baseMethod() { /*...*/ }
+};
+
+class Derived : public Base {
+public:
+    void derivedMethod() { /*...*/ }
+};
+
+int main() {
+    Derived* derivedPtr = new Derived();
+    Base* basePtr = static_cast<Base*>(derivedPtr);  // Upcasting
+
+    basePtr->baseMethod();  // Valid, as basePtr is now a Base*.
+
+    Derived* derivedPtr = static_cast<Derived*>(basePtr);  // Downcasting
+    derivedPtr->derivedMethod(); // Valid, as basePtr actually points to a Derived object.
+
+    delete derivedPtr;
+    return 0;
+}
+```
+
+####  `dynamic_cast`
+Perform safe, runtime-checked downcasting in polymorphic hierarchies.
+
+``` cpp
+class Base { virtual void foo() {} };
+class Derived : public Base { void foo() override {} };
+
+Base* base = new Derived();
+Derived* derived = dynamic_cast<Derived*>(base); // Safe downcast
+if (derived) {
+    // Successful cast
+}
+```
+Common Uses:
+1. Use `dynamic_cast` for safer downcasting: When working with polymorphic types (classes with virtual functions), prefer `dynamic_cast` for downcasting, as it performs a runtime check and returns nullptr if the **cast fails**.
+2. Works only with polymorphic types (classes with virtual functions).
+
+**What does it mean by it works with only polymorphic types (Polymorphic Requirement)?**
+
+The polymorphic requirement refers to the need for a class to have at least one virtual function in order for dynamic_cast to work. This requirement is due to how *runtime type information (RTTI)* is implemented in C++.
+
+Polymorphism in C++ allows objects to be treated as instances of their base class rather than their derived class. This is achieved using virtual functions, which enable dynamic (runtime) binding of function calls. Polymorphism is a core feature of object-oriented programming in C++. (We'll talk about Polymorphism more on later)
+{: .notice--success}
+
+Runtime Type Information (RTTI) is a mechanism that allows the type of an object to be determined during program execution. RTTI is necessary for dynamic_cast to perform runtime checks and ensure that the cast is valid. RTTI is only available for polymorphic types.
+{: .notice--success}
+
+**Polymorphic Requirement for dynamic_cast**
+
+For dynamic_cast to work, the classes involved in the cast must be polymorphic. This means the base class must have at **least one** virtual function. The presence of a virtual function ensures that the class has an associated *vtable* (virtual table), which is used by the compiler to store information about the virtual functions of the class and the actual type of the object.
+
+*Polymorphic Class Example*
+``` cpp
+#include <iostream>
+#include <typeinfo>
+
+class Base {
+public:
+    virtual ~Base() {}  // Virtual destructor makes Base a polymorphic class
+};
+
+class Derived : public Base {
+public:
+    void derivedMethod() { std::cout << "Derived method called\n"; }
+};
+
+void polymorphicExample(Base* basePtr) {
+    Derived* derivedPtr = dynamic_cast<Derived*>(basePtr);
+    if (derivedPtr) {
+        derivedPtr->derivedMethod();
+    } else {
+        std::cout << "basePtr is not pointing to a Derived object.\n";
+    }
+}
+
+int main() {
+    Base* base1 = new Base();
+    Base* base2 = new Derived();
+    
+    polymorphicExample(base1);  // Fails, as base1 is not a Derived object
+    polymorphicExample(base2);  // Succeeds, as base2 is actually a Derived object
+
+    delete base1;
+    delete base2;
+    return 0;
+}
+```
+
+*Non-Polymorphic Class Example*
+``` cpp
+#include <iostream>
+
+class Base {
+public:
+    // No virtual functions, so Base is not polymorphic
+};
+
+class Derived : public Base {
+public:
+    void derivedMethod() { std::cout << "Derived method called\n"; }
+};
+
+void nonPolymorphicExample(Base* basePtr) {
+    // This will cause a compile-time error
+    Derived* derivedPtr = dynamic_cast<Derived*>(basePtr);
+    if (derivedPtr) {
+        derivedPtr->derivedMethod();
+    } else {
+        std::cout << "basePtr is not pointing to a Derived object.\n";
+    }
+}
+
+int main() {
+    Base* base1 = new Base();
+    Base* base2 = new Derived();
+    
+    nonPolymorphicExample(base1);  // This will cause a compile-time error
+    nonPolymorphicExample(base2);  // This will cause a compile-time error
+
+    delete base1;
+    delete base2;
+    return 0;
+}
+```
+error: cannot `dynamic_cast` ‘basePtr’ (of type ‘class Base*’) to type ‘class Derived*’ (source type is not polymorphic)
+{: .notice--danger}
+
+####  `dynamic_cast` vs `static_cast`
+`dynamic_cast`
+
+Pros:
+* **Runtime Type Checking:** `dynamic_cast` performs a runtime check to ensure the cast is valid. If the cast is invalid (e.g., if the base pointer doesn't actually point to a derived type), it returns `nullptr` (for pointers) or throws a std::bad_cast exception (for references).
+* **Safety:** Due to runtime checks, `dynamic_cast` is safer for downcasting in polymorphic hierarchies (where you have at least one virtual function, typically the destructor).
+
+Cons:
+* **Performance Overhead:** Because of the runtime checks, `dynamic_cast` can be *slower* than `static_cast`. This overhead can be significant in performance-critical code, especially within tight loops or real-time systems.
+* **Polymorphic Requirement:** dynamic_cast only works with polymorphic types (i.e., classes with at least one virtual function). If the class hierarchy is not polymorphic, dynamic_cast cannot be used.
+
+`static_cast`
+
+Pros:
+* **Compile-time Checking:** `static_cast` performs type checking at compile time. This makes it faster since there's no runtime overhead.
+* **Flexibility:** `static_cast` can be used for non-polymorphic types as well, making it more versatile in certain scenarios.
+
+Cons:
+* **No Runtime Checks:** `static_cast` does not perform any runtime checks. If the cast is incorrect (e.g., if the base pointer doesn't actually point to the derived type), the behavior is undefined, potentially leading to **crashes or other hard-to-diagnose bugs**.
+* **Potential for Unsafe Casts:** `static_cast` relies on the programmer's guarantee that the cast is safe. Misuse can lead to undefined behavior, which is dangerous.
+
+####  `const_cast`
+The `const_cast` operator is specifically designed to add or **remove const** and **volatile** qualifiers from a variable. This is useful when you need to pass a const object to a function that takes a non-const parameter.
+
+``` cpp
+#include <iostream>
+
+void modifyValue(int* ptr) {
+    *ptr = 10;
+}
+
+int main() {
+    const int value = 5;
+    const int* constPtr = &value;
+
+    // Removing const using const_cast
+    int* nonConstPtr = const_cast<int*>(constPtr);
+
+    // Now we can modify the value (though it's undefined behavior if the original object is actually const)
+    modifyValue(nonConstPtr);
+
+    std::cout << "Value: " << *constPtr << std::endl;  // Undefined behavior But Out put maybe appears to be correct (due to compiler optimizations)
+
+    return 0;
+}
+```
+
+Modifying a value through a pointer that was **originally const** is *undefined* behavior. The `const_cast` operator should be used with care, and you should ensure that the object being modified was not originally declared as const.
+{: .notice--warning}
+
+A valid use case for `const_cast` is when you are working with legacy code or APIs that do not use const correctly. For example, a function that should accept a const parameter but doesn't
+{: .notice--success}
+
+####  `reinterpret_cast`
+Perform unsafe conversions between unrelated types.
+
+``` cpp
+int i = 42;
+void* v = reinterpret_cast<void*>(&i);
+int* ip = reinterpret_cast<int*>(v); // Cast back to int pointer
+```
+
+`reinterpret_cast` should be used with **caution**. It is typically used in the following scenarios:
+* **Type Punning:** When you need to treat a sequence of bits as a different type.
+* **Interfacing with Hardware:** When dealing with low-level hardware interfaces where types need to be reinterpreted.
+* **Interfacing with C APIs:** When interacting with certain C libraries or APIs that require casting pointers to void* and back.
+
+`reinterpret_cast` can easily lead to undefined behavior if the resulting pointer is dereferenced incorrectly. The types involved in the cast should have a compatible memory layout also it bypasses the C++ type system, which can lead to bugs that are hard to track down. It should be used sparingly and only when necessary.
+{: .notice--warning}
+
+# `typedef` vs `using`
+In modern C++, `typedef` is still used, but it has largely been superseded by the `using` keyword, which was introduced in C++11. The using keyword provides a more readable and flexible way to create type aliases and is generally preferred over typedef for new code.
+
+*`typedef` example usage:*
+``` cpp
+// Typedef example
+typedef unsigned long ulong;
+typedef int (*func_ptr)(double, double);  // Function pointer typedef
+```
+
+*`using` example usage:*
+``` cpp
+#include <iostream>
+
+// Define a function
+void foo() {
+    std::cout << "Hello from foo!" << std::endl;
+}
+
+// Define a function pointer type using 'using'
+using voidFuncPtr = void (*)();
+
+int main() {
+    // Create a function pointer and assign it to foo
+    voidFuncPtr func = &foo;
+
+    // Call the function through the function pointer
+    func();  // Outputs: Hello from foo!
+
+    return 0;
+}
+```
+
+## Advantages of using Over typedef
+* **Readability:** using is generally more readable and easier to understand, especially for complex type definitions.
+* **Templates:** using works better with templates and can be used to simplify template declarations.
+
+``` cpp
+template <typename T>
+struct MyContainer {
+    using VectorType = std::vector<T>;
+};
 ```

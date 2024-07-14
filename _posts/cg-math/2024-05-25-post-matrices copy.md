@@ -103,7 +103,7 @@ Note that,
 
 ## Geometric Interpretation of Matrix
 ### What actually a matrix represent in Geometric form?
-A matrix represents a coordinate space transformation by describing how points, vectors, or geometric objects are transformed when subjected to specific operations.
+A matrix represents a **coordinate space transformation** by describing how points, vectors, or geometric objects are transformed when subjected to specific operations.
 
 Multiplying points or vectors by the transformation matrix applies the corresponding transformation to them, resulting in a change in their position, direction, or size within the coordinate space.
 
@@ -166,7 +166,7 @@ A $$90^{\circ}$$ counterclockwise rotation in 2D space transforms the x-axis uni
 
 We place the transformed basis vectors into the rows of the matrix.
 
-$$T_{\text{rotate}} = \begin{bmatrix} 0 & -1 \\  1 & 0 \end{bmatrix}$$
+$$T_{\text{rotate}} = \begin{bmatrix} 0 & 1 \\  -1 & 0 \end{bmatrix}$$
 
 ## Exercises
 

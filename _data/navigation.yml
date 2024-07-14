@@ -7,3 +7,7 @@ main:
     url: /ds&a/
   - title: "C++"
     url: /C++/
+  - title: "Leet Code"
+    url: /leet/
+  - title: "OpenGL"
+    url: /opengl/
