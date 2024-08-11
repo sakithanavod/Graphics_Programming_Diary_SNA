@@ -2,7 +2,7 @@
 title: "Data Structures and Algorithms - Introduction"
 excerpt_separator: "<!--more-->"
 categories:
- - Data Structures and Algorithms 
+ - dsa 
 tags:
  - DSA
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Leet Code Cheat Sheet: Arrays"
+title: "Leet Code Cheat Sheet"
 excerpt_separator: "<!--more-->"
 categories:
  - LeetCode 
@@ -7,74 +7,184 @@ tags:
  - Leet
 ---
 
-Leet Code array problems
+Leet Code Cheat Sheet
 
 <!--more-->
 
-## Arrays
-### [1920. Build Array From Permutation](https://leetcode.com/problems/build-array-from-permutation/description/)
+## Two Pointer Approach
+The two-pointer approach is a common algorithmic technique used for solving problems that involve searching or processing elements in arrays or lists.
 
-To solve this problem without using extra space, we need to find a way to store both the *original value* and the *new value* within the **same array**. 
+This technique uses two pointers (or indices) to traverse the data structure, often from different directions or at different speeds.
 
-One way to achieve this is to use the fact that all elements in the array are distinct and in the range from `0` to `nums.length - 1`.
+Key Features of the Two-Pointer Approach:
 
-We can **encode** two numbers in one position by leveraging the **size of the array**. Specifically, we can store the new value in a way that it can be extracted later without losing the original value. Here is the step-by-step approach:
+1. **Efficiency:** It often reduces the time complexity of problems, particularly those involving searching, sorting, or comparing elements in arrays or lists.
+2. **Simplicity:** It provides a straightforward way to implement certain algorithms that would be more complex using other methods.
+3. **Versatility:** It can be applied to a variety of problems, including those involving two sorted arrays, linked lists, and even strings.
 
-**Encoding Two Values:**
+### Common Scenarios for Using the Two-Pointer Approach:
 
-For each index `i`, we want to store both `nums[i]` and `nums[nums[i]]` in `nums[i]`. We can encode the new value `nums[nums[i]]` and the original value `nums[i]` using the formula:
+#### Merging Two Sorted Arrays:
+the two-pointer technique can efficiently merge two sorted arrays into one sorted array by comparing elements from the end or the beginning of the arrays.
+
+#### Finding Pairs with a Given Sum:
+When given a sorted array, you can use two pointers to find pairs of elements that add up to a specific target sum. One pointer starts at the beginning and the other at the end, moving inward until the pair is found.
+
+#### Removing Duplicates from a Sorted Array:
+One pointer can traverse the array, while another pointer keeps track of the position for placing unique elements.
+
+#### Reversing a Substring
+Two pointers can be used to reverse elements in a substring or subarray by swapping elements from both ends moving towards the center.
+
+### Example Problem: Finding Pairs with a Given Sum
+
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void findPairsWithSum(const vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size() - 1;
+
+    while (left < right) {
+        int sum = nums[left] + nums[right];
+
+        if (sum == target) {
+            cout << "(" << nums[left] << ", " << nums[right] << ")" << endl;
+            left++;
+            right--;
+        } else if (sum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+}
+
+int main() {
+    vector<int> nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int target = 10;
+    
+    findPairsWithSum(nums, target);
+    
+    return 0;
+}
 
 ```
-nums[i] = nums[i] + (nums[nums[i]] % n) * n;
-```
 
-This works under certain conditions:
+## Boyer-Moore Voting Algorithm (For finding the majority element in an array)
+The Boyer-Moore Voting Algorithm is a popular algorithm for finding the **majority element** in an array. The majority element is defined as the element that appears more than `[n / 2]` times in the array. The algorithm works in linear time `O(n)` and uses constant space `O(1)`, making it very efficient.
 
-* Array Length: The array length `n` must be known and should be used consistently for both encoding and decoding.
-* Value Range: The values in the array should be in the range `[0,n−1]` to ensure the encoding and decoding process works correctly.
-{: .notice--warning}
+**Steps of the Boyer-Moore Voting Algorithm**
 
-Here, `n` is the length of the array. This ensures that the new value is stored in the higher bits while the original value is preserved.
-
-**Decoding the New Values:**
-
-After encoding all values, we need to extract the new values by dividing each element by n:
-
-```
-nums[i]=nums[i]/n
-```
-Here is the implementation of the above approach in C++:
+1. **Initialization:** Start with an empty candidate and a counter set to zero.
+2. **Traversal:**
+    * Iterate through the array.
+    * For each element:
+        * If the counter is zero, set the current element as the candidate.
+        * If the current element is the same as the candidate, increment the counter.
+        * If the current element is different from the candidate, decrement the counter.
+3. **Result:** After one complete pass through the array, the candidate will be the majority element.
 
 ```cpp
 #include <vector>
 using namespace std;
 
-vector<int> buildArray(vector<int>& nums) {
-    int n = nums.size();
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate = nums[0];
+        int count = 0;
 
-    // First pass: Encode two values into each element
-    for (int i = 0; i < n; ++i) {
-        nums[i] = nums[i] + (nums[nums[i]] % n) * n;
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (num == candidate) ? 1 : -1;
+        }
+
+        return candidate;
     }
+};
 
-    // Second pass: Decode the new values
-    for (int i = 0; i < n; ++i) {
-        nums[i] = nums[i] / n;
-    }
+// Example usage:
+int main() {
+    Solution solution;
+    
+    vector<int> nums1 = {3, 2, 3};
+    int result1 = solution.majorityElement(nums1);
+    // Output: 3
+    cout << "Majority Element: " << result1 << endl;
+    
+    vector<int> nums2 = {2, 2, 1, 1, 1, 2, 2};
+    int result2 = solution.majorityElement(nums2);
+    // Output: 2
+    cout << "Majority Element: " << result2 << endl;
 
-    return nums;
+    return 0;
 }
 
 ```
-#### Concept
-If you have an array of length `n` and an index `i`, using `i % n` ensures that the index wraps around within the bounds of the array. This works because the modulo operation ensures that the result is always within the range `[0, n-1]`.
 
-**Example**
+## Three-step reversal method
 
-Let's say you have an array nums of length `n = 6` and you want to wrap around the index.
+The three-step reversal method is a common technique for reversing a portion of an array or a string in-place. 
 
-* If i = 7, then i % 6 = 1.
-* If i = 13, then i % 6 = 1.
-* If i = -1, then (i % n + n) % n = (-1 % 6 + 6) % 6 = 5.
+**Steps of three-step reversal method**
 
-Adding `n` when `i < 0` ensures that the result of the modulo operation is always non-negative. By adding `n` to the result before taking modulo `n` again, we ensure that the index wraps around correctly to a positive value within the range `[0, n-1]`.
+1. Reverse the entire array.
+2. Reverse the first k elements
+3. Reverse the remaining n-k elements
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// Function to reverse a portion of the array
+void reverseArray(std::vector<int>& arr, int start, int end) {
+    while (start < end) {
+        std::swap(arr[start], arr[end]);
+        start++;
+        end--;
+    }
+}
+
+// Function to rotate the array to the right by k steps
+void rotateArray(std::vector<int>& arr, int k) {
+    int n = arr.size();
+    k = k % n; // To handle cases where k > n
+
+    // Step 1: Reverse the entire array
+    reverseArray(arr, 0, n - 1);
+
+    // Step 2: Reverse the first k elements
+    reverseArray(arr, 0, k - 1);
+
+    // Step 3: Reverse the remaining n-k elements
+    reverseArray(arr, k, n - 1);
+}
+
+int main() {
+    std::vector<int> arr = {1, 2, 3, 4, 5, 6, 7};
+    int k = 3;
+
+    std::cout << "Original array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    rotateArray(arr, k);
+
+    std::cout << "Rotated array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
