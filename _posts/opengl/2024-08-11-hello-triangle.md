@@ -79,263 +79,88 @@ Example use in: Tessellation : subdivide geometry into finer pieces.
 * Stencil Testing: Uses a stencil buffer to allow or block fragments based on predefined patterns.
 * Blending: Combines the fragment's output color with the existing color in the framebuffer. This is used for effects like transparency and anti-aliasing.
 
-## GLFW
-GLFW is a library, written in C, specifically targeted at OpenGL. GLFW gives us the bare necessities required for rendering goodies to the screen. It allows us to create an OpenGL context, define window parameters, and handle user input, which is plenty enough for our purposes.
-
-### Example of using GLFW to create OpenGL context, define window parameters
-
-```cpp
-    // Initialize GLFW
-    if (!glfwInit()) {
-        std::cerr << "Failed to initialize GLFW" << std::endl;
-        return -1;
-    }
-
-    // Set OpenGL version and profile
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // Create a windowed mode window and its OpenGL context
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-    if (!window) {
-        std::cerr << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
-    glfwMakeContextCurrent(window);
-
-```
-
-## GLAD
-OpenGL is only really a standard/specification it is up to the driver manufacturer to implement the specification to a driver that the specific graphics card supports. 
-
-Since there are many different versions of OpenGL drivers, the location of most of its functions is not known at compile-time and needs to be queried at **run-time.**
+In modern OpenGL we are required to define at least a vertex and fragment shader of our own (there are no default vertex/fragment shaders on the GPU).
 {: .notice--warning}
 
-It is then the task of the developer to retrieve the location of the functions he/she needs and store them in function pointers for later use.
+## Vertex input
+To start drawing something we have to first give OpenGL some input vertex data.
+OpenGL doesn't simply transform all your 3D coordinates to 2D pixels on your screen; OpenGL only processes 3D coordinates when they're in a specific range between **-1.0 and 1.0 on all 3 axes (x, y and z).** 
 
-```cpp
-    // Initialize GLAD
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
-```
-
-functions like `glGenBuffers`, `glBindBuffer`, `glBufferData`, and many others come from OpenGL, and **GLAD** is responsible for loading these function pointers at runtime. GLAD provides access to these functions by querying the graphics driver and making the function pointers available for your application.
-
-## Hello Window
-In the main function we first initialize GLFW with `glfwInit`, after which we can configure GLFW using `glfwWindowHint`.
-
-Since we want to use OpenGL version 3.3 we'd like to tell GLFW that 3.3 is the OpenGL version we want to use.
-
-We also tell GLFW we want to explicitly use the core-profile.
-```cpp
-int main()
-{
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  
-    return 0;
-}
-```
-
-Next we're required to create a window object. This window object holds all the windowing data and is required by most of GLFW's other functions.
-
-```cpp
-GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-
-if (window == NULL)
-{
-    std::cout << "Failed to create GLFW window" << std::endl;
-    glfwTerminate();
-    return -1;
-}
-glfwMakeContextCurrent(window);
-```
-**GLAD**
-
-Next we initialize GLAD before we call any OpenGL function:
-
-```cpp
-if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-{
-    std::cout << "Failed to initialize GLAD" << std::endl;
-    return -1;
-} 
-```
-
-We pass GLAD the function to load the address of the OpenGL function pointers which is **OS-specific**. GLFW gives us `glfwGetProcAddress` that defines the correct function based on which OS we're compiling for.
-{: .notice--primary}
-
-**Viewport**
-
-Before we can start rendering we have to do one last thing. We have to tell OpenGL the **size** of the rendering window so OpenGL knows how we want to display the data and coordinates with respect to the window.
-
-```cpp
-glViewport(0, 0, 800, 600);
-
-// or you can use
-
-int width = 0, height = 0;
-glfwGetFramebufferSize(window, &width, &height); //retrieves the window size
-glViewport(0, 0, width, height);
-
-```
-* The first two parameters of `glViewport` set the location of the *lower left corner* of the window. 
-* The third and fourth parameter set the *width* and *height* of the rendering window in pixels
-
-However, the moment a user **resizes** the window the viewport should be adjusted as well.
+All coordinates within this so called *normalized device coordinates* range will end up visible on your screen (and all coordinates outside this region won't).
 {: .notice--warning}
 
-We can register a callback function on the window that gets called each time the window is resized.
-
-This resize **callback function** has the following prototype:
-
-```cpp
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
-```
-Whenever the window changes in size, GLFW calls this function and fills in the proper arguments for you to process.
+Because we want to render a single triangle we want to specify a total of three vertices with each vertex having a 3D position.
+We define them in normalized device coordinates (the visible region of OpenGL) in a float array:
 
 ```cpp
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}  
+float vertices[] = {
+    -0.5f, -0.5f, 0.0f, //left most vertex
+     0.5f, -0.5f, 0.0f, //right most vertex
+     0.0f,  0.5f, 0.0f  //top vertex
+};
 ```
 
-Now we do have to tell GLFW we want to call this function on every window resize by registering it:
+![Alt Text]({{ site.baseurl }}/assets/opengl/gl2.png)
 
-```cpp
-glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);  
-```
-
-We don't want the application to draw a single image and then immediately quit and close the window. We want the application to keep drawing images and handling user input until the program has been explicitly told to stop.
-
-For this reason we have to create a while loop, that we now call the **render loop**, that keeps on running until we tell GLFW to stop. The following code shows a very simple render loop:
-
-```cpp
-while(!glfwWindowShouldClose(window))
-{
-    glfwSwapBuffers(window);
-
-    /**
-    * glfwPollEvents();
-    * checks if any events are triggered (like keyboard input or mouse movement events),
-    * updates the window state, and calls the corresponding functions 
-    * (which we can register via callback methods)
-    */
-    glfwPollEvents();
-}
-```
-
-The `glfwSwapBuffers` will swap the color buffer (a large 2D buffer that contains *color values* for each *pixel* in GLFW's window) that is used to render to during this render iteration and show it as output to the screen.
+Your Normalized Device Coordinates (NDC) will then be transformed to screen-space coordinates via the viewport transform using the data you provided with `glViewport`.
 {: .notice--success}
 
-## Double buffer
-When an application draws in a *single buffer* the resulting image may display flickering issues. This is because the resulting output image is not drawn in an instant, but drawn pixel by pixel and usually from left to right and top to bottom.
-
-Because this image is not displayed at an instant to the user while still being rendered to, the result may contain artifacts.
-{: .notice--warning}
-
-To circumvent these issues, windowing applications apply a **double buffer** for rendering.
-
-* Back Buffer: The buffer where the next frame is rendered.
-* Front Buffer: The buffer currently being displayed on the scree
-
-### How Double Buffering Works
-1. **Render to Back Buffer:** The application renders the next frame to the back buffer.
-2. **Swap Buffers:** Once rendering is complete, the back buffer is swapped with the front buffer.
-3. **Display Front Buffer:** The front buffer is displayed on the screen while the back buffer is used for rendering the next frame.
-
-As soon as all the rendering commands are finished we **swap** the back buffer to the front buffer so the image can be displayed without still being rendered to, removing all the aforementioned artifacts.
+The resulting screen-space coordinates are then transformed to fragments as inputs to your fragment shader.
 {: .notice--success}
 
-**Termination**
+![Alt Text]({{ site.baseurl }}/assets/opengl/gl3.png)
 
-As soon as we exit the render loop we would like to properly clean/delete all of GLFW's resources that were allocated. We can do this via the `glfwTerminate` function that we call at the end of the `main` function.
+With the vertex data defined we'd like to send it as input to the first process of the graphics pipeline: the vertex shader. 
 
-```cpp
-glfwDestroyWindow(window);
+This is done by creating memory on the GPU where we store the vertex data, configure how OpenGL should interpret the memory and specify how to send the data to the graphics card.
 
-glfwTerminate();
+The vertex shader then processes as much vertices as we tell it to from its memory.
 
-return 0;
-```
+### Vertex Buffer Objects (VBO)
+We manage this memory via so called **vertex buffer objects (VBO)** that can store a large number of vertices in the GPU's memory.
 
-**Input**
+The advantage of using those buffer objects is that we can send large batches of data all at once to the graphics card, and keep it there if there's enough memory left, without having to send data one vertex at a time.
 
-We also want to have some form of input control in GLFW and we can achieve this with several of GLFW's input functions. We'll be using GLFW's `glfwGetKey` function that takes the window as input together with a key. The function returns whether this key is currently being pressed.
-
-We're creating a `processInput` function to keep all input code organized:
+VBO's has a unique ID corresponding to that buffer, so we can generate one with a buffer ID using the glGenBuffers function:
 
 ```cpp
-void processInput(GLFWwindow *window)
-{
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-```
+//single buffer object
+unsigned int VBO;
+glGenBuffers(1, &VBO); 
 
-We then call `processInput` every iteration of the render loop:
+//if we need more than one
+unsigned int VBOs[2];
+glGenBuffers(2, VBOs);  // Generate 2 buffer IDs
+```
+OpenGL has many types of buffer objects and the buffer type of a vertex buffer object is `GL_ARRAY_BUFFER`. OpenGL allows us to bind to several buffers at once as long as they have a different buffer type. 
+
+We can bind the newly created buffer to the `GL_ARRAY_BUFFER` target with the `glBindBuffer` function:
 
 ```cpp
-while (!glfwWindowShouldClose(window))
-{
-    processInput(window);
-
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-}
+glBindBuffer(GL_ARRAY_BUFFER, VBO); 
 ```
 
-**Rendering**
+From that point on any buffer calls we make (on the `GL_ARRAY_BUFFER` target) will be used to configure the currently bound buffer, which is `VBO`.
 
-We want to place all the **rendering commands** in the **render loop**, since we want to execute all the rendering commands each iteration or frame of the loop. This would look a bit like this:
+Then we can make a call to the `glBufferData` function that copies the previously defined vertex data into the buffer's memory:
 
 ```cpp
-// render loop
-while(!glfwWindowShouldClose(window))
-{
-    // input
-    processInput(window);
-
-    // rendering commands here example
-    // glDrawArrays(GL_TRIANGLES, 0, 3);
-    ...
-
-    // check and call events and swap the buffers
-    glfwPollEvents();
-    glfwSwapBuffers(window);
-}
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 ```
 
-An iteration of the render loop is more commonly called a frame.
+`glBufferData` is a function specifically targeted to copy user-defined data into the currently bound buffer.
+
+1. first argument is the type of the buffer we want to copy data into (in this case it's `GL_ARRAY_BUFFER`)
+2. The second argument specifies the size of the data (in bytes) we want to pass to the buffer; a simple `sizeof` of the vertex data suffices.
+3. The third parameter is the actual data we want to send.
+4. The fourth parameter specifies how we want the graphics card to manage the given data. This can take 3 forms:
+    * `GL_STREAM_DRAW`: the data is set only once and used by the GPU at most a few times. (example: dynamic vertex data in real-time simulations.)
+    * `GL_STATIC_DRAW`: the data is set only once and used many times. (example : positions of static geometry)
+    * `GL_DYNAMIC_DRAW` : the data is changed a lot and used many times. (example : vertex positions in an animation)
+
+The position data of the triangle does not change, is used a lot, and stays the same for every render call so its usage type should best be `GL_STATIC_DRAW`.
 {: .notice--success}
 
-At the start of frame we want to clear the screen.Otherwise we would still see the results from the **previous frame.**
+As of now we stored the vertex data within memory on the graphics card as managed by a vertex buffer object named VBO. Next we want to create a vertex and fragment shader that actually processes this data, so let's start building those
 
-We can clear the screen's color buffer using `glClear` where we pass in *buffer bits* to specify which buffer we would like to clear.
-The possible bits we can set are:
-
-1. GL_COLOR_BUFFER_BIT
-2. GL_DEPTH_BUFFER_BIT
-3. GL_STENCIL_BUFFER_BIT
-
-Right now we only care about the color values so we only clear the color buffer.
-
-```cpp
-glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-glClear(GL_COLOR_BUFFER_BIT);
-```
-
-Note that we also specify the color to clear the screen with using `glClearColor`. Whenever we call `glClear` and clear the color buffer, the entire color buffer will be filled with the color as configured by `glClearColor`. This will result in a dark green-blueish color.
-
-## Complete Source
-
-[Download Source]({{ site.baseurl }}/assets/opengl/main_create_window.cpp){:target="_blank"}
+## Writing First Vertex shader

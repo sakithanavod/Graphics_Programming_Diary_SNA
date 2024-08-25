@@ -206,3 +206,164 @@ $$
 
 This matrix $${R}$$ can now be used to rotate any vector around the specified axis by the given angle.
 {: .notice--success}
+
+## Scale
+
+We can scale an object to make it proportionally bigger or smaller by a factor of *k*. If we apply this scale to the entire object, thus “dilating” the object about the origin, we are performing a *uniform scale.*
+
+If we wish to “stretch” or “squash” the object, we can apply different scale factors in different directions, resulting in *nonuniform scale*.
+
+## Scaling along the Cardinal Axes
+
+The simplest scale operation applies a separate scale factor along each cardinal axis. In 2D, we have two scale factors, $${k_x}$$ and $${k_x}$$.Image below shows an object with various scale values for $${k_x}$$ and $${k_x}$$.
+
+![Alt Text]({{ site.baseurl }}/assets/maths/math52.png)
+
+As is intuitively obvious, the basis vectors `p` and `q` are independently affected by the corresponding scale factors:
+
+$$
+p' = k_x \cdot p = k_x \cdot \begin{bmatrix} 1 & 0 \end{bmatrix} = \begin{bmatrix} k_x & 0 \end{bmatrix}
+$$
+
+$$
+q' = k_y \cdot q = k_y \cdot \begin{bmatrix} 0 & 1 \end{bmatrix} = \begin{bmatrix} 0 & k_y \end{bmatrix}
+$$
+
+Constructing the 2D scale matrix $${S(k_x, k_y)}$$ from these basis vectors, we get
+
+$$
+S(k_x, k_y) = 
+\begin{pmatrix} 
+-p' \\ 
+-q' 
+\end{pmatrix}
+= 
+\begin{pmatrix} 
+k_x & 0 \\ 
+0 & k_y 
+\end{pmatrix}
+$$
+
+For 3D, we add a third scale factor $${k_z}$$, and the 3D scale matrix is then given by:
+
+$$
+S(k_x, k_y, k_z) = 
+\begin{pmatrix} 
+-p' \\ 
+-q' \\ 
+-r'
+\end{pmatrix}
+= 
+\begin{pmatrix} 
+k_x & 0 & 0 \\ 
+0 & k_y & 0 \\ 
+0 & 0 & k_z 
+\end{pmatrix}
+$$
+
+If we multiply any arbitrary vector by this matrix, then, as expected, each component is scaled by the appropriate scale factor:
+
+$$
+\begin{bmatrix}
+x & y & z
+\end{bmatrix}
+\begin{bmatrix}
+k_x & 0 & 0 \\
+0 & k_y & 0 \\
+0 & 0 & k_z
+\end{bmatrix}
+=
+\begin{pmatrix}
+k_x x & k_y y & k_z z
+\end{pmatrix}
+$$
+
+## Scaling in an Arbitrary Direction
+
+We can apply scale independent of the coordinate system used by scaling in an arbitrary direction. We define $${\hat{n}}$$ to be the unit vector parallel to the direction of scale, and `k` to be the scale factor to be applied about the line (in 2D) or plane (in 3D) that passes through the origin and is perpendicular to $${\hat{n}}$$. 
+
+Let’s try to derive an expression: given an arbitrary vector $${v}$$, computes $${v`}$$ in terms of $${v}$$, $${\hat{n}}$$ , and $${k}$$.
+
+![Alt Text]({{ site.baseurl }}/assets/maths/math53.png)
+
+We know that,
+
+$${v=v_⊥+v_∥}$$
+
+also we know,
+
+$${v_∥=(v · {\hat{n}}) {\hat{n}}}$$
+
+because it's the projection of $${v}$$ onto $${\hat{n}}$$. 
+
+Since $${v_⊥}$$ is perpendicular to $${\hat{n}}$$, it will not be affected by the scale operation:
+
+$${v`_⊥=v_⊥}$$
+
+and we know that:
+$${v_⊥=v - (v · {\hat{n}}){\hat{n}}}$$
+
+Therefore, 
+
+$${v`_⊥=v - (v · {\hat{n}}){\hat{n}}}$$
+
+See how there is no `k` scale factor
+{: .notice--success}
+
+$${v`_∥}$$ is trivially given by:
+
+$${v`_∥=kv_∥}$$
+
+We can derive that,
+
+$${v`_∥=k(v · {\hat{n}}){\hat{n}}}$$
+
+Now we know both $${v`_∥}$$ & $${v`_⊥}$$ so we can find $${v`}$$
+
+$${v`=v`_⊥+v`_∥}$$
+
+$${v`= v - (v.{\hat{n}}){\hat{n}} + k (v.{\hat{n}})}$$
+
+$${v`= v + (k-1)(v.{\hat{n}}){\hat{n}}}$$
+
+Now that we know how to scale an arbitrary vector, we can compute the value of the basis vectors after scale.
+for 2D basis vector;
+
+$$\mathbf{p} = \begin{bmatrix} 1 & 0 \end{bmatrix}$$ and $$\mathbf{q} = \begin{bmatrix} 0 & 1 \end{bmatrix}$$
+
+We can derive $${p`}$$ and  $${q`}$$as,
+
+$$
+\mathbf{p`} = \begin{bmatrix} 1 + (k - 1) n_x^2 \\ (k - 1) n_x \cdot n_y \end{bmatrix}
+$$
+
+$$
+\mathbf{q`} = \begin{bmatrix} (k - 1) n_xn_y \\ 1 + (k-1) n_y^2 \end{bmatrix}
+$$
+
+Forming a matrix from the basis vectors, we arrive at the 2D matrix to scale by a factor of $${k}$$ in an arbitrary direction specified by the unit vector $${\hat{n}}$$:
+
+$$
+S(\hat{n}, k) = \begin{bmatrix} -p' \\ -q' \end{bmatrix} = \begin{bmatrix} 1 + (k - 1) n_x^2 & (k - 1) n_x \cdot n_y \\ (k - 1) n_x \cdot n_y & 1 + (k - 1) n_y^2 \end{bmatrix}
+$$
+
+In 3D, the values of the basis vectors are computed by for
+
+$${\mathbf{p} = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}}$$, $${\mathbf{q} = \begin{bmatrix} 0 & 1 & 0 \end{bmatrix}}$$ and $${\mathbf{r} = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}}$$
+
+Finally, the 3D matrix to scale by a factor of k in an arbitrary direction specified by the unit vector $${\hat{n}}$$ is
+
+$$
+S(\hat{n}, k) =
+\begin{bmatrix}
+-p' \\
+-q' \\
+-r'
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 + (k - 1) n_x^2 & (k - 1) n_x \cdot n_y & (k - 1) n_x \cdot n_z \\
+(k - 1) n_x \cdot n_y & 1 + (k - 1) n_y^2 & (k - 1) n_y \cdot n_z \\
+(k - 1) n_x \cdot n_z & (k - 1) n_y \cdot n_z & 1 + (k - 1) n_z^2
+\end{bmatrix}
+$$

@@ -11,6 +11,10 @@ Leet Code Cheat Sheet
 
 <!--more-->
 
+**Table of Contents**
+* TOC
+{:toc}
+
 ## Two Pointer Approach
 The two-pointer approach is a common algorithmic technique used for solving problems that involve searching or processing elements in arrays or lists.
 
@@ -187,4 +191,44 @@ int main() {
 
     return 0;
 }
+```
+
+## Floyd's Cycle-Finding Algorithm AKA To determine if a linked list has a cycle
+
+To determine if a **linked list has a cycle using O(1) (constant) memory**, you can use Floyd's Cycle-Finding Algorithm, also known as the "Tortoise and Hare" algorithm. Here's how it works:
+
+**Initialize two pointers:**
+* The "tortoise" pointer, which moves one step at a time.
+* The "hare" pointer, which moves two steps at a time.
+
+**Traverse the linked list:**
+* Move the tortoise pointer by one node and the hare pointer by two nodes.
+* If the *hare pointer* ever meets the tortoise pointer, it indicates there is a cycle in the linked list, and you return `true`.
+* If the *hare pointer* reaches the end of the list (null), then there is no cycle, and you return `false`.
+
+
+```cpp
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if (head == nullptr) {  // Check if the list is empty
+            return false;
+        }
+
+        ListNode *tortoise = head;
+        ListNode *hare = head;
+
+        while (hare != nullptr && hare->next != nullptr) {
+            tortoise = tortoise->next;          // Move tortoise by 1 step
+            hare = hare->next->next;            // Move hare by 2 steps
+
+            if (tortoise == hare) {             // If they meet, there's a cycle
+                return true;
+            }
+        }
+
+        return false;                           // If hare reaches the end, no cycle
+    }
+};
+
 ```
