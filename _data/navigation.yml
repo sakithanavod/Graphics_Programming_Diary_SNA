@@ -3,7 +3,7 @@ main:
 #    url: /posts/
   - title: "Maths"
     url: /maths/
-  - title: "Data Structures & Algorithms"
+  - title: "DSA"
     url: /ds&a/
   - title: "C++"
     url: /C++/
@@ -11,3 +11,5 @@ main:
     url: /leet/
   - title: "OpenGL"
     url: /opengl/
+  - title: "GLSL"
+    url: /glsl/
