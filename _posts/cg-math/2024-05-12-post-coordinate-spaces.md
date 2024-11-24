@@ -12,10 +12,31 @@ tags:
 This chapter gives some examples of common coordinate spaces that are used for graphics and games.
 
 <!--more-->
+**Table of Contents**
+* TOC
+{:toc}
 
 ## Why Bother with Multiple Coordinate Spaces?
 
 For an example. a certain point a, we may not know the coordinates of a in the “world” coordinate system. But we may be able to express a relative to some *other* coordinate system.
+
+## What is a Homogeneous coordinates system
+Homogeneous coordinates are an extension of the traditional Cartesian coordinate system used in computer graphics and mathematics. They add an extra dimension to represent points and vectors, making certain transformations (such as translation) easier and more consistent to perform using matrix multiplication.
+
+1. **Definition of Homogeneous Coordinates:**
+In 2D Cartesian coordinates, a point is represented as $$(x, y)$$.
+In 3D Cartesian coordinates, a point is represented as $$(x, y, z)$$.
+In homogeneous coordinates, a point in 3D space is represented as $$(x, y, z, w)$$.
+
+2. **Converting Between Cartesian and Homogeneous Coordinates:**
+To convert from Cartesian to homogeneous coordinates, we add an extra dimension $$w$$:
+$$(x, y, z) \rightarrow (x, y, z, 1)$$
+
+To convert back from homogeneous coordinates to Cartesian coordinates, we divide by $$w$$ (if $$w \neq 0$$):
+$$(x, y, z, w) \rightarrow \left(\frac{x}{w}, \frac{y}{w}, \frac{z}{w}\right)$$
+
+If $$w = 1$$, then the homogeneous coordinates represent the same point as $$(x, y, z)$$ in Cartesian coordinates.
+
 
 ## Some Useful Coordinate Spaces
 
@@ -141,6 +162,9 @@ In a 3D model of a cube, each corner of the cube would be represented by a verte
 ## Object Transformation Matrix
 An object transformation matrix is a 4x4 matrix used in computer graphics to transform the vertices of an object from its local (object) coordinate space to the world coordinate space. This matrix encapsulates the translation, rotation, and scaling operations applied to the object.
 
+Any 3D object in world space already has its own transformation matrix that has been applied to position, rotate, and scale it within the scene. This transformation matrix encapsulates the object's current state in world space 
+{: .notice--success}
+
 ### Constructing the Object Transformation Matrix
 
 ![Alt Text]({{ site.baseurl }}/assets/maths/math38.png)
@@ -153,7 +177,7 @@ Let's say that object $${N}$$ is scaled, rotate and translated by some amount an
 
 Therefore, The combined transformation matrix $${M}$$ is obtained by multiplying the individual matrices in the order of scaling, rotation, and translation:
 
-$${M} = {T}.{R}.{S}$$
+$${M} = {T}.{R}.{S}$$ (<----- transformation gets applied from right to left if it's column vector - used in openGl)
 
 ### Using the Object Transformation Matrix
 To transform a vertex ($$v_{\text{model}}$$) from *object space to world space*, you multiply it by the object transformation matrix:
@@ -164,6 +188,7 @@ To transform a vertex from world space back to object space, you need to use the
 {: .notice--success}
 
 ## Overview of Vertex Transformation in Rendering
+
 In the context of rendering a 3D object, each vertex's position needs to be transformed using the transformation matrix before rendering it on the screen. This transformation typically happens in the vertex shader on the GPU. Here’s how the process generally works:
 
 1. Model (Object) Space: Vertices are initially defined in the model's local coordinate system.

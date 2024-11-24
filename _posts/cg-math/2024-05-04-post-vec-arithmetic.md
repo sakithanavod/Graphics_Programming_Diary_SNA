@@ -15,6 +15,10 @@ Involves performing mathematical operations such as addition, subtraction, scala
 
 <!--more-->
 
+**Table of Contents**
+* TOC
+{:toc}
+
 ## Vector Multiplication by a Scalar
 Although we cannot add a vector and a scalar, we can multiply a vector by a scalar.
 *The result is a vector that is parallel to the original vector, with a different length and possibly opposite direction.*
@@ -133,11 +137,9 @@ $${b_x} = \hat{\mathbf{a}}.b$$
 
 $${b} =  {b_x} + {b_y}$$
 
-$${b} =  \hat{\mathbf{a}}.b + {b_y}$$
-
-So,
-
-$${b_y} = {b} - \hat{\mathbf{a}}.b$$
+$$
+\mathbf{b}_{\perp} = \mathbf{b} - (\hat{\mathbf{a}} \cdot \mathbf{b}) \hat{\mathbf{a}}
+$$
 
 *Context 2 : Trigonometry*
 
@@ -178,6 +180,20 @@ $$\overrightarrow{a} . \overrightarrow{a} = {\left\lVert a \right\rVert}^2$$
 When you take the dot product of a vector with itself, you're essentially finding the square of its magnitude.
 {: .notice--success}
 
+#### Dot Product Recap!
+
+1. Dot product can be defined as $$\hat{\mathbf{a}} · b$$ as the **signed length** of the projection of b onto this line.
+2. Using this and by removing unit vectors, we can derive that $$a.b = {\left\lVert a \right\rVert}{\left\lVert b \right\rVert}\cos \theta$$
+3. Also means that when $${a}$$ and $${b}$$ are unit vectors, dot product between them gives the cosine angle between those two vectors $$\cos \theta = {\hat{\mathbf{a}}.\hat{\mathbf{b}}}$$
+4. From this (when a and b are unit vectors) we can say, when the angle between the vectors, $$(\theta)$$, is:
+    * $$\theta = 0$$ (vectors are in the same direction):
+   $$\cos(\theta) = 1 \Rightarrow a \cdot b = 1$$
+    * $$\theta = 90$$ (vectors are perpendicular):
+    $$\cos(\theta) = 0 \Rightarrow a \cdot b = 0$$
+    * $$ \theta = 180^\circ $$ (vectors are in opposite directions):
+   $$\cos(\theta) = -1 \Rightarrow a \cdot b = -1$$
+5. When you use dot product on the vector it self, $$\overrightarrow{a} . \overrightarrow{a} = {\left\lVert a \right\rVert} .   {\left\lVert a \right\rVert}\cos \theta $$ and now $$cos0^{\circ} = 1 $$, therefore, $$\overrightarrow{a} . \overrightarrow{a} = {\left\lVert a \right\rVert}^2$$ meaning you're essentially finding the square of its magnitude.
+
 ### Cross Product:
 
 the cross product, can be applied only in 3D. Unlike the dot product, which yields a scalar and is commutative, the vector cross product yields a *3D vector* and is not commutative.
@@ -193,6 +209,20 @@ $${c_x} = {a_y* b_z - a_z*b_y}$$
 $${c_y} = {a_z* b_x - a_x*b_z}$$
 
 $${c_z} = {a_x* b_y - a_y*b_x}$$
+
+#### Way to remember
+
+For two 3D vectors $$a = (a_x, a_y, a_z)$$ and $$b = (b_x, b_y, b_z)$$, the cross product $$a \times b$$ can be calculated using the determinant of a 3x3 matrix:
+
+$$
+a \times b = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ a_x & a_y & a_z \\ b_x & b_y & b_z \end{vmatrix}
+$$
+
+Expanding this determinant:
+
+$$
+a \times b = \hat{i} (a_y b_z - a_z b_y) - \hat{j} (a_x b_z - a_z b_x) + \hat{k} (a_x b_y - a_y b_x)
+$$
 
 *Geometric Interpretation*
 
@@ -213,22 +243,32 @@ $${\mathbf{a} \times \mathbf{b} = c}$$
 * "b" is middle finger
 * "c" is the result
 
+or use,
+
+![Alt Text]({{ site.baseurl }}/assets/maths/math54.jpg)
+
 What is the relationship between the resulting vector of cross product other than it's perpendicular to other two vectors?.
 
 *Context 1 : Determining the direction of rotation between two vectors*
 
 ![Alt Text]({{ site.baseurl }}/assets/maths/math21.png)
 
+The direction of rotation between two vectors $${a}$$ and $${b}$$ refers to the orientation of the turn you would make to go from vector $${a}$$ to vector $${b}$$ around a given point (usually the origin). Specifically, this concept tells us whether the turn is clockwise or counterclockwise.
+{: .notice--success}
+
 We can determine the direction of $${\mathbf{a} \times \mathbf{b}}$$ by placing the tail of $${b}$$ at the head of $${a}$$, and examining whether we make a clockwise or counterclockwise turn from $${a}$$ to $${b}$$.
 
 Check the sign of the resulting vector's z-component (assuming we're working in 2D or in 3D where the z-axis is perpendicular to the plane containing $${a}$$ and $${b}$$)
 {: .notice--success}
 
-For right handed coordinate systems,
+For right handed coordinate systems, Z component ($${c_z} = {a_x* b_y - a_y*b_x}$$)
 * If the z-component is positive, then you need to make a counterclockwise turn from $${a}$$ to $${b}$$
 * If the z-component is negative, then you need to make a clockwise  turn from $${a}$$ to $${b}$$
 * If the z-component is zero, the vectors are collinear, meaning they point in the same or opposite directions, and there is no need to turn
 {: .notice--primary}
+
+The cross product sign indicates whether the **shortest rotation** is clockwise or counterclockwise.
+{: .notice--success}
 
 *Context 2 : Geometric relationship*
 
@@ -264,6 +304,21 @@ So $${c}$$ can be expressed as,
 $${c} = \left\lVert \mathbf{a} \times \mathbf{b} \right\rVert . \hat{n}$$
 
 where $$\hat{n}$$ is a unit vector in the direction determined by the right-hand rule.
+
+#### Cross Product Recap!
+
+If,
+
+$${c} = {\mathbf{a} \times \mathbf{b}}$$
+
+1. The cross product $${a×b}$$ yields a vector perpendicular to both $${a}$$ and $${b}$$ (in 3D only).
+2. The cross product is not commutative : $${\mathbf{a} \times \mathbf{b}} \neq {\mathbf{b} \times \mathbf{a}} \quad \text{but} \quad {\mathbf{a} \times \mathbf{b}} = -({\mathbf{b} \times \mathbf{a}})$$
+3. If you know components of each vector, then you can use component formula to calculate cross product directly.
+4. Direction of resulting vector of cross product can be determined by right hand rule.
+5. Also if you have the resulting cross product component, then check the $${z}$$ component sign,
+    * if it's positive - then resulting cross product vector points towards you and $${a}$$ vector should rotate (shortest) counter clockwise to reach b.
+    * if it's negative - then resulting cross product vector points from you and $${a}$$ vector should rotate (shortest) clockwise to reach b.
+6. If you know the angle between $${a}$$ and $${b}$$ which is  $$\sin \theta$$ then you can calculate the length of cross product vector by: $$\left\lVert \mathbf{a} \times \mathbf{b} \right\rVert =  {\left\lVert a \right\rVert} {\left\lVert b \right\rVert} \sin \theta$$
 
 ## Exercises
 

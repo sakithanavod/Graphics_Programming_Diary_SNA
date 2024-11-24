@@ -14,6 +14,11 @@ Matrices are of fundamental importance in 3D math, where they are primarily used
 
 <!--more-->
 
+**Table of Contents**
+* TOC
+{:toc}
+
+
 ## Mathematical Definition of Matrix
 In linear algebra, a matrix is a rectangular grid of numbers arranged into rows and columns.
 
@@ -120,7 +125,7 @@ a linear transformation preserves straight and parallel lines, and that there is
 Linear transformations can often be represented by matrices. Each linear transformation corresponds to a **unique matrix**, and vice versa. When a linear transformation is represented by a matrix, applying the transformation to a vector is simply done by **matrix-vector multiplication**. and finally we call this as transformation matrix.
 
 What does transformation matrix represents?
-* The transformation matrix represents how each of these original basis vectors is transformed under the linear transformation.
+* The transformation matrix represents how each of these **original basis vectors** is transformed under the **linear transformation**.
 * Each row (if its column major then its the column) of the transformation matrix corresponds to the transformed version of one of the original **basis vectors**.
 
 ![Alt Text]({{ site.baseurl }}/assets/maths/math45.png)
@@ -154,7 +159,7 @@ the +x basis vector is transformed into the vector labeled p above, and the y ba
 In this example, we can easily see that part of the transformation represented by matrix M is a counterclockwise rotation of approximately $$26.5^{\circ}$$ and it also scales it.
 {: .notice--primary}
 
-By interpreting the rows of a matrix as basis vectors, we have a tool for *deconstructing a matrix*. But we also have a tool for *constructing one!* Given a desired transformation (i.e., rotation, scale, and so on), we can derive a matrix that represents that transformation.
+By interpreting the rows of a matrix as **basis vectors**, we have a tool for *deconstructing a matrix*. But we also have a tool for *constructing one!* Given a desired transformation (i.e., rotation, scale, and so on), we can derive a matrix that represents that transformation.
 
 How do we do this? It's easy just figure out what the transformation does to the *basis vectors* and then place those transformed basis vectors into the **rows of a matrix**.
 
