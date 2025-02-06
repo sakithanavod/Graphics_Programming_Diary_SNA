@@ -23,3 +23,6 @@ This repository serves as a centralized location for my personal notes on graphi
 - Shader Programming
 - Ray Tracing
 - Useful Algorithms and Data Structures
+
+https://ibb.co/KbGYscM
+https://drive.google.com/file/d/1tkF7bmcjlR_Oyl4KyzvJf4nS6tJ-tvrP/view?usp=drive_link
