@@ -218,6 +218,9 @@ Typically, in more advanced applications, this is where you'd apply transformati
 w-component)
 6. Viewport Transformation (Screen Space): After NDC, the coordinates are mapped to the viewport (using `glViewport`), and rasterization occurs to determine which pixels the geometry covers.
 
+ OpenGL handles the transformation from Clip Space → NDC → Screen Space internally after the vertex shader. You don't need to manually perform these steps.
+{: .notice--success}
+
 ###  Example Vertex Shader with Model, View, and Projection Transformations
 
 ```cpp
@@ -492,6 +495,7 @@ glGenBuffers(1, &VBO);
 glGenBuffers(1, &EBO);
 
 // Bind the Vertex Array Object first, then bind and set vertex buffers, and configure vertex attributes
+// Bind the VAO first because it needs to store references to the VBO (Vertex Buffer Object) and EBO (Element Buffer Object)
 glBindVertexArray(VAO);
 
 glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -518,6 +522,9 @@ glEnableVertexAttribArray(2);
 // Unbind VAO to avoid unintentional modifications
 glBindVertexArray(0);
 ```
+
+EBO does not need `glVertexAttribPointer` because it stores indices, not attributes.The VAO automatically remembers which EBO was bound, even after unbinding.
+{: .notice--warning}
 
 #### Explanation of Parameters for `glVertexAttribPointer`
 
