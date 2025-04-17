@@ -507,3 +507,180 @@ Let's check if the result actually does fulfill these requirements:
 ![Alt Text]({{ site.baseurl }}/assets/opengl/gl27.png)
 
 ## More 3D
+
+So far we've been working with a 2D plane, even in 3D space, so let's take the adventurous route and extend our 2D plane to a 3D cube. To render a cube we need a total of 36 vertices (6 faces * 2 triangles * 3 vertices each)
+
+```cpp
+float vertices[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, //x, y, z, u, v
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
+```
+
+36 vertices (6 faces × 2 triangles per face × 3 vertices per triangle)
+Each vertex has:
+* Position: x, y, z
+* Texture coordinates: u, v
+
+The result would be something like this:
+
+![Spinning Cube]({{ site.baseurl }}/assets/opengl/cube.gif)
+
+It does resemble a cube slightly but something's off. Some sides of the cubes are being drawn over other sides of the cube. This happens because when OpenGL draws your cube triangle-by-triangle, fragment by fragment, it will **overwrite** any pixel color that may have already been drawn there before.
+
+Since OpenGL gives no guarantee on the order of triangles rendered (within the same draw call), some triangles are drawn on top of each other even though one should clearly be in front of the other.
+{: .notice--warning}
+
+Luckily, OpenGL stores depth information in a buffer called the z-buffer that allows OpenGL to decide when to draw over a pixel and when not to. Using the z-buffer we can configure OpenGL to do depth-testing.
+{: .notice--success}
+
+### Z-buffer
+
+OpenGL stores all its depth information in a z-buffer, also known as a depth buffer. GLFW automatically creates such a buffer for you (just like it has a color-buffer that stores the colors of the output image).
+
+The depth is stored within each fragment (as the fragment's z value) and whenever the fragment wants to output its color, OpenGL compares its depth values with the z-buffer. If the current fragment is behind the other fragment it is discarded, otherwise overwritten. 
+
+This process is called depth testing and is done **automatically** by OpenGL.
+
+However, if we want to make sure OpenGL actually performs the depth testing we first need to tell OpenGL we want to enable depth testing; it is **disabled** by default. 
+
+We can enable depth testing using `glEnable`. The `glEnable` and `glDisable` functions allow us to enable/disable certain functionality in OpenGL. That functionality is then enabled/disabled until another call is made to disable/enable it. Right now we want to enable depth testing by enabling `GL_DEPTH_TEST`:
+
+```cpp
+glEnable(GL_DEPTH_TEST);  
+```
+
+Since we're using a depth buffer we also want to clear the depth buffer before each render iteration (otherwise the depth information of the previous frame stays in the buffer). Just like clearing the color buffer, we can clear the depth buffer by specifying the `DEPTH_BUFFER_BIT` bit in the `glClear` function:
+
+```cpp
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+```
+**More cubes!**
+
+Say we wanted to display 10 of our cubes on screen. Each cube will look the same but will only differ in where it's located in the world with each a different rotation. 
+
+The graphical layout of the cube is already defined so we don't have to change our buffers or attribute arrays when rendering more objects.
+{: .notice--success}
+
+The only thing we have to change for each object is its model matrix where we transform the cubes into the world.
+
+First, let's define a translation vector for each cube that specifies its position in world space. We'll define 10 cube positions in a `glm::vec3 array:`
+
+```cpp
+glm::vec3 cubePositions[] = {
+    glm::vec3( 0.0f,  0.0f,  0.0f), 
+    glm::vec3( 2.0f,  5.0f, -15.0f), 
+    glm::vec3(-1.5f, -2.2f, -2.5f),  
+    glm::vec3(-3.8f, -2.0f, -12.3f),  
+    glm::vec3( 2.4f, -0.4f, -3.5f),  
+    glm::vec3(-1.7f,  3.0f, -7.5f),  
+    glm::vec3( 1.3f, -2.0f, -2.5f),  
+    glm::vec3( 1.5f,  2.0f, -2.5f), 
+    glm::vec3( 1.5f,  0.2f, -1.5f), 
+    glm::vec3(-1.3f,  1.0f, -1.5f)  
+};
+```
+
+Now, within the render loop we want to call glDrawArrays 10 times, but this time send a **different model matrix** to the vertex shader each time before we send out the draw call. 
+
+We will create a small loop within the render loop that renders our object 10 times with a different model matrix each time. Note that we also add a small unique rotation to each container.
+
+```cpp
+glBindVertexArray(VAO);
+for(unsigned int i = 0; i < 10; i++)
+{
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, cubePositions[i]);
+    float angle = 20.0f * i; 
+    model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+    ourShader.setMat4("model", model);
+
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+```
+
+This snippet of code will update the model matrix each time a new cube is drawn and do this 10 times in total. Right now we should be looking into a world filled with 10 oddly rotated cubes:
+
+![More Cubes]({{ site.baseurl }}/assets/opengl/spin-cubes.gif)
+
+### What is Happening?
+**VAO/VBO holds vertex data**
+
+You store the cube’s vertex data (36 vertices) like this:
+
+```cpp
+glBindVertexArray(cubeVAO);
+glDrawArrays(GL_TRIANGLES, 0, 36);
+```
+* This cube data is used over and over — no duplication.
+* It's in GPU memory once.
+
+**Shader applies transformation**
+
+In your vertex shader:
+
+```cpp
+gl_Position = projection * view * model * vec4(aPos, 1.0);
+```
+* **aPos is the same cube vertex data each time** -  The values in aPos are local vertex positions — meaning they are relative to the cube's origin (the cube’s own local space). These positions don’t change from cube to cube — they are reused.
+* But **model changes** every iteration of your C++ loop
+
+That’s what makes each draw produce a cube in a different location and orientation
+
+**CPU tells GPU: draw again with new model matrix**
+
+```cpp
+for (int i = 0; i < 10; ++i)
+{
+    glm::mat4 model = ...;                    // New transform
+    shader.setMat4("model", model);           // Upload to GPU
+    glDrawArrays(GL_TRIANGLES, 0, 36);        // Draw the same cube data again
+}
+```
+
+So the vertex positions stay the same, but the transform makes them appear differently on screen.
+
+Think of the cube vertex data as a rubber stamp, and the model matrix as your hand moving it to different spots and rotating it. Stamping action is the draw call and you're stamping the same shape onto different locations each frame for all 10 cubes.
+{: .notice--success}
+
+## Complete Source
+[Download Source]({{ site.baseurl }}/assets/opengl/demo_3d.cpp){:target="_blank"}
