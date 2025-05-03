@@ -26,3 +26,9 @@ This repository serves as a centralized location for my personal notes on graphi
 
 https://ibb.co/KbGYscM
 https://drive.google.com/file/d/1tkF7bmcjlR_Oyl4KyzvJf4nS6tJ-tvrP/view?usp=drive_link
+
+## To Run Locally
+
+```cpp
+bundle exec jekyll serve
+```
