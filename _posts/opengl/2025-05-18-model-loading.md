@@ -740,6 +740,6 @@ vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string
 
 Now, declare a `Model` object and pass in the model's file location. The model should then automatically load and (if there were no errors) render the object in the render loop using its `Draw` function and that is it. 
 
-No more buffer allocations, attribute pointers, and render commands, just a simple one-liner. If you create a simple set of shaders where the fragment shader only outputs the object's diffuse texture, the result looks a bit like this:
+No more buffer allocations, attribute pointers, and render commands, just a simple one-liner. If you create a simple set of shaders where the fragment shader only outputs the object's diffuse texture, the result looks a bit like this::
 
 ![Alt Text]({{ site.baseurl }}/assets/opengl/gl58.png)
